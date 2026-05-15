@@ -1,0 +1,32 @@
+{
+  "name": "acaju-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adsifspcaragua/ACAJU-backend.git"
+  },
+  "keywords": [
+    "api",
+    "express",
+    "node",
+    "javascript",
+    "prisma",
+    "zod",
+    "mvc"
+  ],
+  "author": "Angelo, Ana, Thiago, Kevin",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/adsifspcaragua/ACAJU-backend/issues"
+  },
+  "homepage": "https://github.com/adsifspcaragua/ACAJU-backend#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
