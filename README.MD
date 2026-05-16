@@ -53,7 +53,13 @@ npm i
 ### 1. criar o arquivo 
 Criar o arquivo .env local: Como o .env não vai para o GitHub (graças ao .gitignore), cada um vai precisar criar o seu próprio .env e colar a senha do banco de dados.
 
-### 2. gerar o cliente do prisma
+### 2. sincronizar o banco de dados e gerar o cliente
+Rode o comando abaixo para criar as tabelas no seu banco local e gerar as funções do Prisma:
+```bash
+npx prisma db push
+```
+
+### 3. gerar o cliente do prisma
 ```bash
 npx prisma generate
 ```
