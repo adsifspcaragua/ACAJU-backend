@@ -28,11 +28,15 @@
   },
   "homepage": "https://github.com/adsifspcaragua/ACAJU-backend#readme",
   "dependencies": {
+    "@prisma/client": "^7.8.0",
+    "bcryptjs": "^3.0.3",
+    "dotenv": "^17.4.2",
     "express": "^5.2.1"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "eslint": "^10.4.0",
-    "globals": "^17.6.0"
+    "globals": "^17.6.0",
+    "prisma": "^7.8.0"
   }
 }
