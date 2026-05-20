@@ -15,8 +15,21 @@ datasource db {
 model ADM {
   id        String   @id @default(uuid())
   name      String   @db.VarChar(255)
-  email     String   @db.VarChar(255) @unique
+  email     String   @unique @db.VarChar(255)
   pass      String   @db.VarChar(255)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
+  ADMLOG   ADMLOG[]
+}
+
+model ADMLOG {
+  id        String   @id @default(uuid())
+  loginAt   DateTime @default(now())
+  ipAddress String?
+  userAgent String?
+
+  adminId String
+  ADM     ADM    @relation(fields: [adminId], references: [id], onDelete: Cascade)
 }

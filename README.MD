@@ -50,16 +50,28 @@ Não se esqueça de instalar as dependencias com o npm i
 npm i
 ```
 
-### 1. criar o arquivo 
-Criar o arquivo .env local: Como o .env não vai para o GitHub (graças ao .gitignore), cada um vai precisar criar o seu próprio .env e colar a senha do banco de dados.
+### 1. Criar BD no workbench até um official ser criado
+No workbench use esse comando, ate o momento não temos um mongoDB configurado, então vai ser um MySQL.
+```bash
+create database ACAJU_DB;
+```
 
-### 2. sincronizar o banco de dados e gerar o cliente
+### 2. Criar o arquivo .env
+Criar o arquivo .env local: Como o .env não vai para o GitHub (graças ao .gitignore), cada um vai precisar criar o seu próprio .env e configurar as variaveis globais com base no arquivo .env.sample
+
+### 3. Sincronizar o banco de dados e gerar o cliente
 Rode o comando abaixo para criar as tabelas no seu banco local e gerar as funções do Prisma:
 ```bash
 npx prisma db push
 ```
 
-### 3. gerar o cliente do prisma
+### 4. Gerar o cliente do prisma
 ```bash
 npx prisma generate
 ```
+
+---
+
+# JsonWebToken
+
+### Não esquecer de configurar o sercret, Cada um coloca o seu secret no .env
