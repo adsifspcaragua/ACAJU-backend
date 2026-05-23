@@ -21,7 +21,7 @@ model ADM {
   updatedAt DateTime @updatedAt
 
 
-  ADMLOG   ADMLOG[]
+  admlog   ADMLOG[]
 }
 
 model ADMLOG {
