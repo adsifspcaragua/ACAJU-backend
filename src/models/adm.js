@@ -1,5 +1,4 @@
-import { PrismaClient } from "@prisma/client/extension";
-const prisma = new PrismaClient;
+import {prisma} from "../helpers/dbConnection.js"
 
 export const ADMModel = {
     async buscarPorEmail(email) {
@@ -19,7 +18,7 @@ export const ADMModel = {
     },
 
     async criarLogDeAcesso(adminId, ip, userAgent) {
-        return await prisma.ADMModel.create({
+        return await prisma.ADM.create({
             data: {
                 adminId: adminId,
                 ip: ip,

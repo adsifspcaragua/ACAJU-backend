@@ -1,9 +1,10 @@
-import { ADMModel } from "../../models/adm";
-import { cadastroSchema } from "../../validator/auth";
+import { ADMModel } from "../../models/adm.js";
+import { cadastroSchema, loginSchema } from "../../validator/auth.js";
+import jwt from "jsonwebtoken"
 import bcrypt from "bcryptjs";
 
 export const sessionController = {
-    async cadastro(next, req, res) {
+    async cadastro(req, res, next) {
         try {
             const dadosValidados = cadastroSchema.parse(req.body);
 
@@ -32,9 +33,37 @@ export const sessionController = {
 
     async login(next, req, res) {
         try {
-            
+        const dadosValidados = loginSchema.parse(req.body);
+
+        const admin = await ADMModel.buscarPorEmail(dadosValidados.email);
+        if(!admin) {
+            return res.status(401).json({ error: "Email ou senha invalidos. "});
+        }
+
+        const senha = await bcrypt.compare(dadosValidados.senha, admin.pass);
+        if (!senha) {
+            return res.status(401).json({ error: "Email ou senha invalidos. "});
+        }
+
+        await ADMModel.criarLogDeAcesso(
+            admin.id,
+            req.ip,
+            req.headers['user-agent']
+        );
+
+        const token = jwt.sign(
+            { id: admin.id, email: admin.email},
+            process.env.JWT_SECRET,
+            { expiresIn: 'id'}
+        )
+
+        return res.json({
+            token,
+            admin: { id: admin.id, name: admin.name, email: admin.email}
+        });
+
         } catch (error) {
             next(error);
         }
     }
-}
+};
