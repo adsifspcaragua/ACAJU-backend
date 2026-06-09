@@ -31,7 +31,7 @@ export const sessionController = {
         }
     },
 
-    async login(next, req, res) {
+    async login(req, res, next) {
         try {
         const dadosValidados = loginSchema.parse(req.body);
 
@@ -40,21 +40,21 @@ export const sessionController = {
             return res.status(401).json({ error: "Email ou senha invalidos. "});
         }
 
-        const senha = await bcrypt.compare(dadosValidados.senha, admin.pass);
+        const senha = await bcrypt.compare(dadosValidados.password, admin.pass);
         if (!senha) {
             return res.status(401).json({ error: "Email ou senha invalidos. "});
         }
 
         await ADMModel.criarLogDeAcesso(
             admin.id,
-            req.ip,
-            req.headers['user-agent']
+            req.ip || '127.0.0.1',
+            req.headers['user-agent'] || 'Unknown'
         );
 
         const token = jwt.sign(
             { id: admin.id, email: admin.email},
             process.env.JWT_SECRET,
-            { expiresIn: 'id'}
+            { expiresIn: '1d'}
         )
 
         return res.json({

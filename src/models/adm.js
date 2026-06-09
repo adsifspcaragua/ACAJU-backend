@@ -18,10 +18,10 @@ export const ADMModel = {
     },
 
     async criarLogDeAcesso(adminId, ip, userAgent) {
-        return await prisma.ADM.create({
+        return await prisma.ADMLOG.create({
             data: {
                 adminId: adminId,
-                ip: ip,
+                ipAddress: ip,
                 userAgent: userAgent
             }
         });
