@@ -1,9 +1,12 @@
 import express from "express";
 import authRouter from "./routes/admRouter.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
+import cors from 'cors';
 
 const app = express();
 const port = 3000;
+
+app.use(cors())
 
 app.use(express.json());
 
