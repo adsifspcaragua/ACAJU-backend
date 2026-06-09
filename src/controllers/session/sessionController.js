@@ -23,9 +23,9 @@ export const sessionController = {
 
             return res.status(201).json({
                 message: 'Cadastro com sucesso!',
-                admin: { id: novoAdmin.id, name: novoAdmin.name, email: novoAdmin.email}
+                admin: { id: novoAdmin.id, name: novoAdmin.name, email: novoAdmin.email }
             });
-            
+
         } catch (error) {
             next(error);
         }
@@ -33,34 +33,38 @@ export const sessionController = {
 
     async login(req, res, next) {
         try {
-        const dadosValidados = loginSchema.parse(req.body);
+            const dadosValidados = loginSchema.parse(req.body);
 
-        const admin = await ADMModel.buscarPorEmail(dadosValidados.email);
-        if(!admin) {
-            return res.status(401).json({ error: "Email ou senha invalidos. "});
-        }
+            const admin = await ADMModel.buscarPorEmail(dadosValidados.email);
+            if (!admin) {
+                return res.status(401).json({ error: "Email ou senha invalidos. " });
+            }
 
-        const senha = await bcrypt.compare(dadosValidados.password, admin.pass);
-        if (!senha) {
-            return res.status(401).json({ error: "Email ou senha invalidos. "});
-        }
+            const senha = await bcrypt.compare(dadosValidados.password, admin.pass);
+            if (!senha) {
+                return res.status(401).json({ error: "Email ou senha invalidos. " });
+            }
 
-        await ADMModel.criarLogDeAcesso(
-            admin.id,
-            req.ip || '127.0.0.1',
-            req.headers['user-agent'] || 'Unknown'
-        );
+            await ADMModel.criarLogDeAcesso(
+                admin.id,
+                req.ip || '127.0.0.1',
+                req.headers['user-agent'] || 'Unknown'
+            );
 
-        const token = jwt.sign(
-            { id: admin.id, email: admin.email},
-            process.env.JWT_SECRET,
-            { expiresIn: '1d'}
-        )
+            const dataFormatada = new Date(logCriado.loginAt).toLocaleString("pt-BR", {
+                timeZone: "America/Sao_Paulo"
+            });
 
-        return res.json({
-            token,
-            admin: { id: admin.id, name: admin.name, email: admin.email}
-        });
+            const token = jwt.sign(
+                { id: admin.id, email: admin.email },
+                process.env.JWT_SECRET,
+                { expiresIn: '1d' }
+            )
+
+            return res.json({
+                token,
+                admin: { id: admin.id, name: admin.name, email: admin.email }
+            });
 
         } catch (error) {
             next(error);
