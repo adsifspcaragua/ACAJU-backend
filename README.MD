@@ -34,7 +34,7 @@ Sempre rode os comandos abaixo antes de fazer um `git commit`:
 npx eslint .
 ```
 
-### 2. Corrigir automaticamente os errinhos de formatação:
+### 2. Corrigir automaticamente os erros de formatação:
 ```bash
 npx eslint . --fix
 ```

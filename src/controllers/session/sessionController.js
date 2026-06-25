@@ -51,10 +51,6 @@ export const sessionController = {
                 req.headers['user-agent'] || 'Unknown'
             );
 
-            const dataFormatada = new Date(logCriado.loginAt).toLocaleString("pt-BR", {
-                timeZone: "America/Sao_Paulo"
-            });
-
             const token = jwt.sign(
                 { id: admin.id, email: admin.email },
                 process.env.JWT_SECRET,

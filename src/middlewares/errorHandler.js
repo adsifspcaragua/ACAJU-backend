@@ -1,5 +1,6 @@
 import { ZodError } from 'zod';
 
+// eslint-disable-next-line no-unused-vars
 export function errorHandler(err, req, res, next) {
 
     if (err instanceof ZodError) {
