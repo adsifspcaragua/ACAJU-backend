@@ -4,7 +4,7 @@
 // Get a free hosted Postgres database in seconds: `npx create-db`
 
 generator client {
-  provider = "prisma-client"
+  provider = "prisma-client-js"
   output   = "../src/generated/prisma"
 }
 
@@ -20,8 +20,9 @@ model ADM {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
-  admlog   ADMLOG[]
+  admlog ADMLOG[]
+  news   News[]
+  events Event[]
 }
 
 model ADMLOG {
@@ -32,4 +33,95 @@ model ADMLOG {
 
   adminId String
   ADM     ADM    @relation(fields: [adminId], references: [id], onDelete: Cascade)
+}
+
+enum Status {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+// (Tela Horário de Funcionamento)
+
+model Settings {
+  id         String   @id @default(uuid())
+  statusText String
+  openTime   String
+  closeTime  String
+  notes      String?  @db.Text
+  updatedAt  DateTime @updatedAt
+}
+
+// 4. PUBLICAÇÕES 
+
+model News {
+  id         String  @id @default(uuid())
+  title      String
+  content    String  @db.Text
+  coverImage String?
+  videoUrl   String?
+  status     Status  @default(PENDING)
+
+  adminId String
+  ADM     ADM    @relation(fields: [adminId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  galleryImages Json?
+}
+
+model Event {
+  id          String   @id @default(uuid())
+  name        String
+  date        DateTime
+  location    String
+  description String   @db.Text
+  coverImage  String?
+  status      Status   @default(PENDING)
+
+  adminId String
+  ADM     ADM    @relation(fields: [adminId], references: [id])
+
+  createdAt DateTime @default(now())
+}
+
+// 5. ACERVO INSTITUCIONAL (Telas de Projetos, Memórias e PDFs)
+
+model Project {
+  id            String   @id @default(uuid())
+  title         String
+  objective     String   @db.Text
+  bodyContent   String   @db.Text
+  coverImage    String?
+  videoUrl      String?
+  createdAt     DateTime @default(now())
+  galleryImages Json?
+}
+
+model Memory {
+  id            String   @id @default(uuid())
+  title         String // Título / Figura Homenageada
+  content       String   @db.Text
+  coverImage    String?
+  videoUrl      String?
+  createdAt     DateTime @default(now())
+  galleryImages Json?
+}
+
+model Document {
+  id          String   @id @default(uuid())
+  name        String // Nome do arquivo (ex: Estatuto_2025.pdf)
+  description String   @db.Text
+  fileUrl     String // URL do PDF upado
+  createdAt   DateTime @default(now())
+}
+
+// 6. GALERIA GLOBAL (Tela Galeria de Fotos)
+
+model GalleryImage {
+  id            String   @id @default(uuid())
+  imageUrl      String
+  createdAt     DateTime @default(now())
+  galleryImages Json?
 }
