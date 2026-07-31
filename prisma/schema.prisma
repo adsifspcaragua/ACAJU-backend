@@ -58,15 +58,22 @@ enum Environment {
 
 // (Tela Horário de Funcionamento)
 
-model Settings {
-  id         String   @id @default(uuid())
-  statusText String
-  openTime   String
-  closeTime  String
-  notes      String?  @db.Text
-  updatedAt  DateTime @updatedAt
+
+enum VisitStatus {
+  ABERTO      
+  FECHADO     
+  MANUTENCAO  
 }
 
+// Modelo da Tabela de Horário de Funcionamento
+model OperatingHours {
+  id              String      @id @default(uuid())
+  currentStatus   VisitStatus @default(OPEN) 
+  openingTime     String      
+  closingTime     String      
+  additionalNotes String?     @db.Text
+  updatedAt       DateTime    @updatedAt
+}
 // 4. PUBLICAÇÕES 
 
 model News {
