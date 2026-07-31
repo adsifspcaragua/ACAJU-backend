@@ -41,6 +41,21 @@ enum Status {
   REJECTED
 }
 
+enum MutiraoType {
+  LIMPEZA 
+  PLANTIO 
+  OUTRO   
+}
+
+enum Environment {
+  PRAIA   
+  RIO      
+  MANGUE   
+  RESTINGA 
+  URBANO   
+}
+
+
 // (Tela Horário de Funcionamento)
 
 model Settings {
@@ -71,14 +86,19 @@ model News {
   galleryImages Json?
 }
 
-model Event {
-  id          String   @id @default(uuid())
-  name        String
-  date        DateTime
+// MULTIRÔES
+
+model Mutirao {
+  id          String      @id @default(uuid())
+  name        String     
+  type        MutiraoType 
+  date        DateTime    
+  time        String
   location    String
-  description String   @db.Text
+  environment Environment 
   coverImage  String?
-  status      Status   @default(PENDING)
+  description String      @db.Text
+  createdAt   DateTime    @default(now())
 
   adminId String
   ADM     ADM    @relation(fields: [adminId], references: [id])
@@ -86,35 +106,36 @@ model Event {
   createdAt DateTime @default(now())
 }
 
-// 5. ACERVO INSTITUCIONAL (Telas de Projetos, Memórias e PDFs)
+//model Project {
+//  id            String   @id @default(uuid())
+//  title         String
+//  objective     String   @db.Text
+//  bodyContent   String   @db.Text
+//  coverImage    String?
+//  videoUrl      String?
+//  createdAt     DateTime @default(now())
+//  galleryImages Json?
+//}
 
-model Project {
-  id            String   @id @default(uuid())
-  title         String
-  objective     String   @db.Text
-  bodyContent   String   @db.Text
-  coverImage    String?
-  videoUrl      String?
-  createdAt     DateTime @default(now())
-  galleryImages Json?
-}
-
-model Memory {
-  id            String   @id @default(uuid())
-  title         String // Título / Figura Homenageada
-  content       String   @db.Text
-  coverImage    String?
-  videoUrl      String?
-  createdAt     DateTime @default(now())
-  galleryImages Json?
-}
+// model Memory {
+//  id            String   @id @default(uuid())
+//  title         String // Título / Figura Homenageada
+//  content       String   @db.Text
+//  coverImage    String?
+//  videoUrl      String?
+//  createdAt     DateTime @default(now())
+//  galleryImages Json?
+//} 
 
 model Document {
   id          String   @id @default(uuid())
-  name        String // Nome do arquivo (ex: Estatuto_2025.pdf)
+  name        String 
   description String   @db.Text
   fileUrl     String // URL do PDF upado
   createdAt   DateTime @default(now())
+
+  adminId String
+  ADM     ADM    @relation(fields: [adminId], references: [id])
 }
 
 // 6. GALERIA GLOBAL (Tela Galeria de Fotos)
