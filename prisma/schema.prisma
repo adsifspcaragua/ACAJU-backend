@@ -78,20 +78,21 @@ model OperatingHours {
 // 4. PUBLICAÇÕES 
 
 model News {
-  id         String  @id @default(uuid())
-  title      String
-  content    String  @db.Text
-  coverImage String?
-  videoUrl   String?
-  status     Status  @default(PENDING)
+  id              String   @id @default(uuid())
+  title           String
+  content         String   @db.Text
+  coverImage      String?
+  videoUrl        String?
+  requiresApproval Boolean  @default(false) 
+  status          Status   @default(PENDING)
 
-  adminId String
-  ADM     ADM    @relation(fields: [adminId], references: [id])
+  adminId         String
+  ADM             ADM      @relation(fields: [adminId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
 
-  galleryImages Json?
+  galleryImages   Json?
 }
 
 // MULTIRÔES
