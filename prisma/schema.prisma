@@ -78,6 +78,7 @@ model OperatingHours {
 // 4. PUBLICAÇÕES 
 
 // NOTICIAS
+
 model News {
   id              String   @id @default(uuid())
   title           String
