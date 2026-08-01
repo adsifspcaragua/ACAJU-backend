@@ -22,7 +22,8 @@ model ADM {
 
   admlog ADMLOG[]
   news   News[]
-  events Event[]
+  mutirao Mutirao[] 
+  documents Document[]
 }
 
 model ADMLOG {
@@ -62,13 +63,13 @@ enum Environment {
 enum VisitStatus {
   ABERTO      
   FECHADO     
-  MANUTENCAO  
+  MANUTENCAO
 }
 
 // Modelo da Tabela de Horário de Funcionamento
 model OperatingHours {
   id              String      @id @default(uuid())
-  currentStatus   VisitStatus @default(OPEN) 
+  currentStatus   VisitStatus @default(ABERTO) 
   openingTime     String      
   closingTime     String      
   additionalNotes String?     @db.Text
@@ -110,7 +111,7 @@ model Mutirao {
   adminId String
   ADM     ADM    @relation(fields: [adminId], references: [id])
 
-  createdAt DateTime @default(now())
+ 
 }
 
 //model Project {
